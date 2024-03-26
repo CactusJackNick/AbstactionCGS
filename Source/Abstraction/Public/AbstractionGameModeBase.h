@@ -7,17 +7,14 @@
 #include "Blueprint/UserWidget.h"
 #include "AbstractionGameModeBase.generated.h"
 
-
 UCLASS()
 class ABSTRACTION_API AAbstractionGameModeBase : public AGameModeBase
 {
-	GENERATED_BODY()
-	
+	GENERATED_BODY()	
 public:
 	void StartPlay() override;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> ObjectiveWidgetClass;
 
-	UUserWidget* ObjectiveWidget = nullptr;
 };

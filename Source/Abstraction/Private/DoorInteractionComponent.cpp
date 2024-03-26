@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/TriggerBox.h"
 #include "Engine/World.h"
+#include "ObjectiveWorldSubsystem.generated.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -26,7 +27,6 @@ UDoorInteractionComponent::UDoorInteractionComponent()
 	CVarToggleDebugDoor.AsVariable()->SetOnChangedCallback(FConsoleVariableDelegate::CreateStatic(&UDoorInteractionComponent::OnDebugToggled));
 }
 
-// Called when the game starts
 void UDoorInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -34,6 +34,12 @@ void UDoorInteractionComponent::BeginPlay()
 	FinalRotation = GetOwner()->GetActorRotation() + DesiredRotation;
 	//ensure TimeToRotate is greater than EPSILON
 	CurrentRotationTime = 0.0f;
+	UObjectiveWorldSubsystem* ObjectiveWorldSubsystem = GetWorld()->GetSubsystem<UObjectiveWorldSubsystem>();
+	if (ObjectiveWorldSubsystem)
+	{
+		OpenedEvent.AddUObject(ObjectiveWorldSubsystem, &UObjectiveWorldSubsystem::OnObjectiveCompleted);
+	}
+
 }
 
 // Called every frame
