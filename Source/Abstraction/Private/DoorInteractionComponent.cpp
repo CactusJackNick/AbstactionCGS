@@ -6,7 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/TriggerBox.h"
 #include "Engine/World.h"
-#include "ObjectiveWorldSubsystem.generated.h"
+#include "ObjectiveWorldSubsystem.h"
 
 #include "DrawDebugHelpers.h"
 
