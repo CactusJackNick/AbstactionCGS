@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Curves/CurveFloat.h"
-
 #include "DoorInteractionComponent.generated.h"
 
 class ATriggerBox;
@@ -39,6 +38,7 @@ public:
 
 	static void OnDebugToggled(IConsoleVariable* Var);
 	void DebugDraw();
+	void OnDoorOpen();
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
