@@ -29,7 +29,7 @@ FString UObjectiveWorldSubsystem::GetCurrentObjectiveDescription()
 	FString RetObjective = Objectives[0]->GetDescription();
 	if (Objectives[0]->GetState() == EObjectiveState::OS_Completed)
 	{
-		RetObjective += TEXT("Completed!");
+		RetObjective += TEXT(" Completed!");
 	}
 
 	return RetObjective;
