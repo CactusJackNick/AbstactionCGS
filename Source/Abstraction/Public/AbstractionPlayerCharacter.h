@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "AbstractionPlayerCharacter.generated.h"
 
+class UHealthComponent;
+
 UCLASS()
 class ABSTRACTION_API AAbstractionPlayerCharacter : public ACharacter
 {
@@ -28,4 +30,14 @@ public:
 
 	virtual void FellOutOfWorld(const class UDamageType& dmgType) override;
 
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser);
+
+protected:
+
+	//virtual void BeginPlay() override;
+
+	void OnDeath(bool isFellOut);
+
+	UPROPERTY(EditAnywhere)
+	UHealthComponent* HealthComponent;
 };
