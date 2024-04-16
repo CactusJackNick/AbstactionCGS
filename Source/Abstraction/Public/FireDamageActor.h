@@ -17,7 +17,7 @@ class ABSTRACTION_API AFireDamageActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AFireDamageActor();
-	virtual void PostActorCreated() override;
+	//virtual void PostActorCreated() override;
 
 protected:
 	// Called when the game starts or when spawned
