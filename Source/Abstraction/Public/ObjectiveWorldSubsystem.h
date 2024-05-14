@@ -10,15 +10,15 @@
 #include "ObjectiveWorldSubsystem.generated.h"
 
 class UObjectiveComponent;
+class UObjectivesHud;
+class UUserWidget;
 
 UCLASS()
 class ABSTRACTION_API UObjectiveWorldSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 public:
-	void CreateObjectiveWidget(TSubclassOf<UUserWidget> ObjectiveWidgetClass);
-	void DisplayObjectiveWidget();
-
+	
 	UFUNCTION(BlueprintCallable)
 	FString GetCurrentObjectiveDescription();
 	
@@ -28,9 +28,27 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RemoveObjective(UObjectiveComponent* ObjectiveComponent);
 
+	UFUNCTION(BlueprintCallable)
+	void OnMapStart();
+
+	void CreateObjectiveWidgets();
+
+protected:
+	virtual void Deinitialize() override;
+
+	void DisplayObjectiveWidget();
+	void RemoveObjectiveWidget();
+	
+	void DisplayObjectivesCompleteWidget();
+	void RemoveObjectivesCompleteWidget();
+
+	uint32 GetCompletedObjectiveCount();
+
 	void OnObjectiveStateChanged(UObjectiveComponent* ObjectiveComponent, EObjectiveState ObjectiveState);
 private:
-	UUserWidget* ObjectiveWidget = nullptr;
+	//UUserWidget* ObjectiveWidget = nullptr;
+	UObjectivesHud* ObjectiveWidget = nullptr;
+	UUserWidget* ObjectivesCompleteWidget = nullptr;
 
 	//add remove them
 	//sign up for callbakc onchanged

@@ -10,6 +10,8 @@
 #include "DrawDebugHelpers.h"
 #include "DrawDebugHelpers.h"
 #include "ObjectiveComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "InteractionComponent.h"
 
 constexpr float FTL_METERS(float meters) { return meters * 100.0f; }
 
@@ -34,6 +36,30 @@ void UDoorInteractionComponent::BeginPlay()
 	StartRotation = GetOwner()->GetActorRotation();
 	FinalRotation = GetOwner()->GetActorRotation() + DesiredRotation;
 	//ensure TimeToRotate is greater than EPSILON
+	CurrentRotationTime = 0.0f;
+}
+
+void UDoorInteractionComponent::InteractionStart()
+{
+	Super::InteractionStart();
+
+	UE_LOG(LogTemp, Warning, TEXT("UDoorInteractionComponent::InteractionStart"));
+	if (InteractingActor)
+	{
+		OpenDoor();
+	}
+}
+
+void UDoorInteractionComponent::OpenDoor()
+{
+	UE_LOG(LogTemp, Warning, TEXT("UDoorInteractionComponent::OpenDoor"));
+	//if (IsOpen() || DoorState == EDoorState::DS_Opening)
+	if (DoorState == EDoorState::DS_Opening)
+	{
+		return;
+	}
+
+	DoorState = EDoorState::DS_Opening;
 	CurrentRotationTime = 0.0f;
 }
 
@@ -71,7 +97,7 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	if (CurrentRotationTime > 0)
 	{
 		APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-		if (PlayerPawn && !TriggerBox->IsOverlappingActor(PlayerPawn))
+		if (PlayerPawn && !TriggerCapsule->IsOverlappingActor(PlayerPawn))
 		{
 			CurrentRotationTime -= DeltaTime;
 			const float TimeRatio = FMath::Clamp(CurrentRotationTime / TimeToRotate, 0.0f, 1.0f);
@@ -94,6 +120,8 @@ void UDoorInteractionComponent::OnDoorOpen()
 		ObjectiveComponent->SetState(EObjectiveState::OS_Completed);
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("DoorOpened!"));
+
+	InteractionSuccess.Broadcast();
 	
 }
 

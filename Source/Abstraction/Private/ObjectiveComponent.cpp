@@ -3,9 +3,11 @@
 
 #include "ObjectiveComponent.h"
 #include "ObjectiveWorldSubsystem.h"
+#include "Engine/World.h"
 
 UObjectiveComponent::UObjectiveComponent()
 {
+	bWantsInitializeComponent = true;
 	PrimaryComponentTick.bCanEverTick = true;
 	State = EObjectiveState::OS_Inactive;
 }
@@ -15,14 +17,12 @@ void UObjectiveComponent::SetState(EObjectiveState NewState)
 	if (NewState != State)
 	{
 		State = NewState;
-		StateChangedEvent.Broadcast(this, State);
+		StateChangedEvent.Broadcast(this, NewState);
 	}
 }
 
-void UObjectiveComponent::BeginPlay()
+void UObjectiveComponent::InitializeComponent()
 {
-	Super::BeginPlay();
-	
 	//register
 	UObjectiveWorldSubsystem* ObjectiveWorldSubsystem = GetWorld()->GetSubsystem<UObjectiveWorldSubsystem>();
 	if (ObjectiveWorldSubsystem)

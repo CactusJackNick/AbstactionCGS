@@ -35,8 +35,10 @@ public:
 	void SetState(EObjectiveState NewState);
 protected:
 	// Called when the game starts
-	virtual void BeginPlay() override;
+	
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	virtual void InitializeComponent() override;
 
 	UPROPERTY(EditAnywhere)
 	FString Description;
