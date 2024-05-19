@@ -7,6 +7,7 @@
 #include "HealthComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/InputComponent.h"
+#include "DamageHandlerComponent.h"
 
 // Sets default values
 AAbstractionPlayerCharacter::AAbstractionPlayerCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -15,6 +16,7 @@ AAbstractionPlayerCharacter::AAbstractionPlayerCharacter(const FObjectInitialize
 	PrimaryActorTick.bCanEverTick = true;
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("HealthComponent");
+	DamageHandlerComponent = CreateDefaultSubobject<UDamageHandlerComponent>(TEXT("DamageHandlerComponent"));
 	ParticleSystemComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle System"));
 	ParticleSystemComponent->SetupAttachment(RootComponent);
 }
@@ -63,11 +65,13 @@ float AAbstractionPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent c
 	}
 	return Damage;
 }
-/*void AAbstractionPlayerCharacter::SetOnFire(UParticleSystemComponent* FireParticleSystemComponent)
+void AAbstractionPlayerCharacter::SetOnFire(float BaseDamage,float DamageTotalTime, float TakeDamageInterval)
 {
-	ParticleSystemComponent->SetTemplate(FireParticleSystemComponent->Template);
-	ParticleSystemComponent->Activate();
-}*/
+	if (DamageHandlerComponent)
+	{
+		DamageHandlerComponent->TakeFireDamage(BaseDamage, DamageTotalTime, TakeDamageInterval);
+	}
+}
 
 void AAbstractionPlayerCharacter::OnDeath(bool IsFellOut)
 {
@@ -80,7 +84,6 @@ void AAbstractionPlayerCharacter::OnDeath(bool IsFellOut)
 
 void AAbstractionPlayerCharacter::StartInteraction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AAbstractionPlayerCharacter::StartInteraction"));
 	OnInteractionStart.Broadcast();
 }
 

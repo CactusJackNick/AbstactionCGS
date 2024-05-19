@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbstractionPlayerCharacter.generated.h"
 
+class UDamageHandlerComponent;
 class UHealthComponent;
 class UParticleSystemComponent;
 
@@ -33,10 +34,16 @@ public:
 	virtual void FellOutOfWorld(const class UDamageType& dmgType) override;
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser);
-	void SetOnFire(UParticleSystemComponent* FireParticleSystemComponent);
+	
+	UFUNCTION(BlueprintCallable, Category = "Abstraction")
+	void SetOnFire(float BaseDamage, float DamageTotalTime, float TakeDamageInterval);
 
 	FOnInteractionStart OnInteractionStart;
 	FOnInteractionCancel OnInteractionCancel;
+
+	//this can be an array or moved later as needed
+	UPROPERTY(EditAnywhere)
+	UParticleSystemComponent* ParticleSystemComponent;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -51,5 +58,5 @@ protected:
 	UHealthComponent* HealthComponent;
 
 	UPROPERTY(EditAnywhere)
-	UParticleSystemComponent* ParticleSystemComponent;
+	UDamageHandlerComponent* DamageHandlerComponent;
 };
