@@ -34,7 +34,13 @@ public:
 	virtual void FellOutOfWorld(const class UDamageType& dmgType) override;
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser);
-	
+
+	UFUNCTION(BlueprintCallable)
+	const bool IsAlive() const;
+
+	UFUNCTION(BlueprintCallable)
+	const float GetCurrentHealth() const;
+
 	UFUNCTION(BlueprintCallable, Category = "Abstraction")
 	void SetOnFire(float BaseDamage, float DamageTotalTime, float TakeDamageInterval);
 

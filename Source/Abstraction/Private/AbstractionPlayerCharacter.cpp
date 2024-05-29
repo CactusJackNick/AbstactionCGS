@@ -65,6 +65,25 @@ float AAbstractionPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent c
 	}
 	return Damage;
 }
+
+const bool AAbstractionPlayerCharacter::IsAlive() const
+{
+	if (HealthComponent)
+	{
+		return !HealthComponent->IsDead();
+	}
+	return false;
+}
+
+const float AAbstractionPlayerCharacter::GetCurrentHealth() const
+{
+	if (HealthComponent)
+	{
+		return HealthComponent->GetCurrentHealth();
+	}
+	return 0.0f;
+}
+
 void AAbstractionPlayerCharacter::SetOnFire(float BaseDamage,float DamageTotalTime, float TakeDamageInterval)
 {
 	if (DamageHandlerComponent)
