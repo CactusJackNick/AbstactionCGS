@@ -94,6 +94,11 @@ void AAbstractionPlayerCharacter::SetOnFire(float BaseDamage,float DamageTotalTi
 
 void AAbstractionPlayerCharacter::OnDeath(bool IsFellOut)
 {
+	GetWorld()->GetTimerManager().SetTimer(RestartLevelTimerHandle, this, &AAbstractionPlayerCharacter::OnDeathTimerFinished, TimeRestartLevelAfterDeath, false);
+}
+
+void AAbstractionPlayerCharacter::OnDeathTimerFinished()
+{
 	APlayerController* PlayerController = GetController<APlayerController>();
 	if (PlayerController)
 	{
