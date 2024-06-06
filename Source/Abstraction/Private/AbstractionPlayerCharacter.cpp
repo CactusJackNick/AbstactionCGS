@@ -25,6 +25,8 @@ AAbstractionPlayerCharacter::AAbstractionPlayerCharacter(const FObjectInitialize
 void AAbstractionPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PC = GetWorld()->GetFirstPlayerController();
 	
 }
 
@@ -115,4 +117,14 @@ void AAbstractionPlayerCharacter::StartInteraction()
 void AAbstractionPlayerCharacter::StopInteraction()
 {
 	OnInteractionCancel.Broadcast();
+}
+
+void AAbstractionPlayerCharacter::HandleItemCollected()
+{
+	ItemsCollected++;
+	//Play Effects here
+	PC->PlayerCameraManager->PlayCameraShake(CamShake, 1.0f);
+	PC->PlayDynamicForceFeedback(ForceFeedbackIntensity, ForceFeedbackDuration, true, false, true, false, EDynamicForceFeedbackAction::Start);
+
+	ItemCollected();
 }

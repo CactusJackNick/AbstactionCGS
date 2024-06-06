@@ -44,6 +44,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Abstraction")
 	void SetOnFire(float BaseDamage, float DamageTotalTime, float TakeDamageInterval);
 
+	UFUNCTION(BlueprintCallable)
+	void HandleItemCollected();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ItemCollected();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int ItemsCollected = 0;
+
 	FOnInteractionStart OnInteractionStart;
 	FOnInteractionCancel OnInteractionCancel;
 
@@ -74,4 +83,15 @@ protected:
 
 	// Handle to manage the death timer
 	FTimerHandle RestartLevelTimerHandle;
+
+	APlayerController* PC;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	TSubclassOf<UCameraShake> CamShake;
+
+	//Force Feedback values.
+	UPROPERTY(EditAnywhere, Category = "Force Feedback")
+	float ForceFeedbackIntensity = 1.0f;
+	UPROPERTY(EditAnywhere, Category = "Force Feedback")
+	float ForceFeedbackDuration = 1.0f;
 };
